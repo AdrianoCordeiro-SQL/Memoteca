@@ -12,9 +12,20 @@ const ui = {
   async renderizarPensamentos() {
     const listaPensamentos = document.getElementById("lista-pensamentos");
     listaPensamentos.innerHTML = "";
+
     try {
       const pensamentos = await api.buscarPensamentos();
-      pensamentos.forEach(ui.adicionarPensamentoNaLista);
+
+      if (pensamentos.length === 0) {
+        listaPensamentos.innerHTML = `
+          <div class="mural-vazio">
+            <p>Nada por aqui ainda, que tal compartilhar alguma ideia?</p>
+            <img src="assets/imagens/mural-vazio.png" alt="Mural vazio">
+          </div>
+        `;
+      } else {
+        pensamentos.forEach(ui.adicionarPensamentoNaLista);
+      }  
     } catch(error) {
         alert('Erro ao renderizar pensamentos')
     }
